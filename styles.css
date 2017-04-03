@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto Slab', Helvetica, sans-serif;
+}
+
+h1 {
+  color: #00A79D;
+}
+
+#heading-second-color, h2, #vote {
+  color: #6D6E71;
+}
+
+p {
+  color: #939598;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+}
+
+header {
+  height: 250px;
+  background-color: #E5F3F2;
+}
+
+input, button {
+  display: block;
+  width: 400px;
+  height: 35px;
+  margin: 10px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #00A79D;
+  border: 0;
+  color: #FFF;
+}
+
+button:hover {
+  background-color: #045E55;
+}
+
+.idea {
+  border-bottom: 1px solid #D1D3D4;
+}
+
+#delete, #upvote, #downvote {
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#delete {
+  background-image: url('images/delete.svg');
+}
+
+#delete:hover {
+  background-image: url('images/delete-hover.svg');
+}
+
+#upvote {
+  background-image: url('images/upvote.svg');
+}
+
+#upvote:hover {
+  background-image: url('images/upvote-hover.svg');
+}
+
+#downvote {
+  background-image: url('images/downvote.svg');
+}
+
+#downvote:hover {
+  background-image: url('images/downvote-hover.svg');
+}
