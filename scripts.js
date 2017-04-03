@@ -1,4 +1,5 @@
-
+// ----- Globals -----
+var ideasArray = [];
 // ----- Main -----
 // TODO: setup onload
 // renderIdeas(getIdeas('ideas'), $('section'));
@@ -8,8 +9,10 @@ $('#btn-save').on('click', function (e) {
   e.preventDefault();
   var inputs = getInputValues();
   var idea = createElement(inputs);
+  addIdea(idea);
+  renderIdeas(ideasArray);
   clearInputs();
-})
+});
 
 // TODO: Search Input: on keyup, test if empty
 // TODO: upVote Btn: on click
@@ -42,18 +45,17 @@ function createElement(inputs) {
 // function getIdeas(key) {
 //   return JSON.parse(localStorage.getItem(key));
 // }
-// 
-// function addIdea(idea) {
-//   var ideas = getIdeas('ideas');
-//   ideas.push(idea);
-//   localStorage.setItem('ideas', idea);
-// }
-// 
-// function renderIdeas(array, container) {
-//   array.forEach(function(e) {
-//     container.prepend(e);
-//   });
-// }
+//
+function addIdea(string) {
+  ideasArray.push(string);
+}
+
+function renderIdeas(array) {
+  array.forEach(function(e) {
+    $('.ideas-container').prepend(e);
+  });
+}
+
 
 // TODO: ideas should be chronologically (use prepend on jquer)
 
