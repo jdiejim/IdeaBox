@@ -11,7 +11,9 @@ h1 {
   color: #00A79D;
 }
 
-#heading-second-color, h2, #vote {
+h1 span,
+h2,
+#vote {
   color: #6D6E71;
 }
 
@@ -25,7 +27,8 @@ header {
   background-color: #E5F3F2;
 }
 
-input, button {
+input,
+button {
   display: block;
   width: 400px;
   height: 35px;
@@ -47,7 +50,9 @@ button:hover {
   border-bottom: 1px solid #D1D3D4;
 }
 
-#delete, #upvote, #downvote {
+#delete,
+#upvote,
+#downvote {
   width: 25px;
   height: 25px;
   background-size: cover;
