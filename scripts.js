@@ -6,7 +6,9 @@
 // ----- Events -----
 $('#btn-save').on('click', function (e) {
   e.preventDefault();
-  var idea = getInputValues();
+  var inputs = getInputValues();
+  var idea = createElement(inputs);
+  clearInputs();
 })
 
 // TODO: Search Input: on keyup, test if empty
@@ -19,11 +21,22 @@ $('#btn-save').on('click', function (e) {
 function getInputValues() {
   var title = $('#input-title').val();
   var body = $('#input-body').val();
-  return {title: title, body: body};
+  var quality = 'swill';
+  return {title: title, body: body, quality: quality};
 }
 
-function createElement() {
-  
+function createElement(inputs) {
+  var elementString = `<article class='idea'> \
+    <h2>${inputs.title}</h2> \
+    <div id='delete'></div> \
+    <p>${inputs.body}</p> \
+    <div id='vote'> \
+      <div id='upvote'></div> \
+      <div id='downvote'></div> \
+      quality: ${inputs.quality} \
+    </div> \
+  </article>`;
+  return elementString;
 }
 
 // function getIdeas(key) {
@@ -43,3 +56,9 @@ function createElement() {
 // }
 
 // TODO: ideas should be chronologically (use prepend on jquer)
+
+
+function clearInputs() {
+  $('#input-title').val('');
+  $('#input-body').val('');
+}
