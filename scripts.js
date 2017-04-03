@@ -1,7 +1,7 @@
 // ----- Globals -----
 var ideasArray = [];
 // ----- Main -----
-// TODO: setup onload
+// TODO: setup onload, render the whole ideasArray
 // renderIdeas(getIdeas('ideas'), $('section'));
 
 // ----- Events -----
@@ -12,7 +12,19 @@ $('#btn-save').on('click', function (e) {
   addIdea(idea);
   renderIdeas(ideasArray);
   clearInputs();
+  console.log(ideasArray);
 });
+
+$('.ideas-container').on('click', function(e) {
+  switch(e.target.id) {
+    case 'delete':
+      // $(e.target).parent().remove();
+      ideasArray
+
+      break;
+  }
+});
+
 
 // TODO: Search Input: on keyup, test if empty
 // TODO: upVote Btn: on click
@@ -39,21 +51,19 @@ function createElement(inputs) {
       quality: ${inputs.quality} \
     </div> \
   </article>`;
-  return elementString;
+  return {element: elementString, id: ideasArray.length};
 }
 
 // function getIdeas(key) {
 //   return JSON.parse(localStorage.getItem(key));
 // }
-//
+
 function addIdea(string) {
   ideasArray.push(string);
 }
 
 function renderIdeas(array) {
-  array.forEach(function(e) {
-    $('.ideas-container').prepend(e);
-  });
+  $('.ideas-container').prepend(array[array.length - 1].element);
 }
 
 
