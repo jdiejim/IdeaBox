@@ -22,6 +22,9 @@ $('.ideas-container').on('click', function(e) {
         return element.id !== childID;
       });
       break;
+    case 'upvote':
+      var qualities = {'swill', 'plausible', 'genius'};
+      var oldQual = 
   }
 });
 
