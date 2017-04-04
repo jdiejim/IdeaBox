@@ -29,6 +29,15 @@ $('.ideas-container').on('click', function(e) {
 // TODO: upVote Btn: on click
 // TODO: downVote Btn: on click
 
+// TODO: contenteditable elements: on keyup, close field on return
+$('.ideas-container').on('keydown', function (e) {
+  var key = e.which;
+  if (key === 13) {
+    console.log(key);
+    $('.ideas-container').blur();
+  }
+});
+
 // ----- Function -----
 function getInputValues() {
   var title = $('#input-title').val();
@@ -41,7 +50,7 @@ function getInputValues() {
 function createElement(inputs) {
   var id = new Date().getTime();
   var elementString = `<article id='${id}' class='idea'> \
-    <h2>${inputs.title}</h2> \
+    <h2 contenteditable='true'>${inputs.title}</h2> \
     <div id='delete'></div> \
     <p contenteditable='true'>${inputs.body}</p> \
     <div id='vote'> \
