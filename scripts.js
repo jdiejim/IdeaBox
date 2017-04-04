@@ -34,7 +34,7 @@ $('.ideas-container').on('keydown', function (e) {
   var key = e.which;
   if (key === 13) {
     console.log(key);
-    $('.ideas-container').blur();  // why isn't this workingggggggg?????
+    $('#input-title').focus();  // why isn't this workingggggggg?????
   }
 });
 
