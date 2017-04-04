@@ -30,9 +30,9 @@ function getInputValues() {
 
 function createElement(inputs) {
   var elementString = `<article class='idea'> \
-    <h2>${inputs.title}</h2> \
+    <h2 contenteditable='true'>${inputs.title}</h2> \
     <div id='delete'></div> \
-    <p>${inputs.body}</p> \
+    <p contenteditable='true'>${inputs.body}</p> \
     <div id='vote'> \
       <div id='upvote'></div> \
       <div id='downvote'></div> \
