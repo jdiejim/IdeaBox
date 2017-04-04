@@ -5,16 +5,16 @@ populateIdeas();
 $('#btn-save').on('click', function (e) {
   e.preventDefault();
   var inputs = getInputValues();
-  var idea = createElement(inputs);
+  var idea = createIdea(inputs);
   setIdea(idea);
   addIdea(idea);
   clearInputs();
 });
 
 $('.ideas-container').on('click', function(e) {
+  var childId = $(e.target).parent()[0].id;
   switch(e.target.id) {
     case 'delete':
-      var childId = $(e.target).parent()[0].id;
       $(e.target).parent().remove();
       removeIdea(childId);
       break;
@@ -37,7 +37,7 @@ function getInputValues() {
   };
 }
 
-function createElement(inputs) {
+function createIdea(inputs) {
   var id = new Date().getTime();
   var element =
   `<article id='${id}' class='idea'> \
