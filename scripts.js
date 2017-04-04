@@ -13,27 +13,36 @@ $('#btn-save').on('click', function (e) {
 
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
+  var idea = getIdea($(e.target).parent().parent()[0].id);
   switch(e.target.id) {
     case 'delete':
       $(e.target).parent().remove();
       removeIdea(childId);
       break;
+    case 'upvote':
+      idea.quality = upQuality(idea.quality);
+      console.log(idea);
+      setIdea(idea);
+      $('#quality').html(idea.quality);
+      break;
+    case 'downvote':
+      idea.quality = downQuality(idea.quality);
+      setIdea(idea);
+      $('#quality').html(idea.quality);
+      break;
   }
+  console.log(idea.quality);
 });
 
 // TODO: Search Input: on keyup, test if empty
-// TODO: upVote Btn: on click
-// TODO: downVote Btn: on click
 
 // ----- Function -----
 function getInputValues() {
   var title = $('#input-title').val();
   var body = $('#input-body').val();
-  var quality = 'swill';
   return {
     title: title,
-    body: body,
-    quality: quality
+    body: body
   };
 }
 
@@ -47,7 +56,7 @@ function createIdea(inputs) {
     <div id='vote'> \
       <div id='upvote'></div> \
       <div id='downvote'></div> \
-      quality: ${inputs.quality} \
+      quality: <span id='quality'>swill</span> \
     </div> \
   </article>`;
   return {
@@ -55,7 +64,7 @@ function createIdea(inputs) {
       body: inputs.body,
       id: id,
       element: element,
-      quality: inputs.quality
+      quality: 'swill'
   };
 }
 
@@ -68,8 +77,8 @@ function clearInputs() {
   $('#input-body').val('');
 }
 
-function getIdea(idea) {
-  return JSON.parse(localStorage.getItem(idea.id));
+function getIdea(id) {
+  return JSON.parse(localStorage.getItem(id));
 }
 
 function setIdea(idea) {
@@ -83,5 +92,33 @@ function removeIdea(id) {
 function populateIdeas() {
   for (var idea in localStorage) {
     $('.ideas-container').prepend(JSON.parse(localStorage[idea]).element);
+  }
+}
+
+function upQuality(quality) {
+  switch(quality) {
+    case 'swill':
+      return 'plausible';
+      break;
+    case 'plausible':
+      return 'genius';
+      break;
+    case 'genius':
+      return 'genius';
+      break;
+  }
+}
+
+function downQuality(quality) {
+  switch(quality) {
+    case 'swill':
+      return 'swill';
+      break;
+    case 'plausible':
+      return 'swill';
+      break;
+    case 'genius':
+      return 'plausible';
+      break;
   }
 }
