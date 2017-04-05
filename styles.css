@@ -9,6 +9,7 @@ body {
 
 header,
 main {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,19 +62,14 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   width: 600px;
-  /*background-color: orange;*/
-  padding: 0;
-  margin: 20px 0px 25px;
+  margin: 10px 0px 25px;
 }
 
 .idea h2 {
-  /*background-color: red;*/
   width: 95%;
-  margin: 0;
 }
 
 #delete {
-  /*background-color: blue;*/
   background-repeat: no-repeat;
   background-position: center;
   width: 5%;
@@ -93,7 +89,6 @@ button:hover {
 
 #upvote,
 #downvote {
-  /*background-color: magenta;*/
   width: 7%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -123,4 +118,16 @@ button:hover {
 
 #downvote:hover {
   background-image: url('images/downvote-hover.svg');
+}
+
+@media (max-width: 650px) {
+
+  input,
+  button {
+    width: 400px;
+  }
+
+  .idea {
+    width: 400px;
+  }
 }
