@@ -34,6 +34,14 @@ $('.ideas-container').on('click', function(e) {
   }
 });
 
+$('#inputs').on('keyup', function () {
+  if ($('#input-title').val() !== "" && $('#input-body').val() !== "") {
+    $('#btn-save').prop('disabled', false);
+  } else {
+    $('#btn-save').prop('disabled', true);
+  }
+});
+
 // TODO: Search Input: on keyup, test if empty
 
 // ----- Function -----
