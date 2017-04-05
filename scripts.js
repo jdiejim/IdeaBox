@@ -1,33 +1,40 @@
-// ----- Globals -----
-var ideasArray = [];
-// ----- Main -----
-// TODO: setup onload
+// ----- Setup -----
+populateIdeas();
 
 // ----- Events -----
 $('#btn-save').on('click', function (e) {
   e.preventDefault();
   var inputs = getInputValues();
-  var idea = createElement(inputs);
-  addIdea(ideasArray, idea);
+  var idea = createIdea(inputs);
+  setIdea(idea);
+  addIdea(idea);
   clearInputs();
 });
 
 $('.ideas-container').on('click', function(e) {
+  var childId = $(e.target).parent()[0].id;
+  var idea = getIdea($(e.target).parent().parent()[0].id);
   switch(e.target.id) {
     case 'delete':
-      var childID = parseInt($(e.target).parent()[0].id);
       $(e.target).parent().remove();
-      console.log(childID);
-      ideasArray = ideasArray.filter(function(element) {
-        return element.id !== childID;
-      });
+      removeIdea(childId);
+      break;
+    case 'upvote':
+      idea.quality = upQuality(idea.quality);
+      console.log(idea);
+      setIdea(idea);
+      $('#quality').html(idea.quality);
+      break;
+    case 'downvote':
+      idea.quality = downQuality(idea.quality);
+      setIdea(idea);
+      $('#quality').html(idea.quality);
       break;
   }
+  console.log(idea.quality);
 });
 
 // TODO: Search Input: on keyup, test if empty
-// TODO: upVote Btn: on click
-// TODO: downVote Btn: on click
 
 // TODO: contenteditable elements: on keyup, close field on return
 $('.ideas-container').on('keydown', function (e) {
@@ -42,41 +49,85 @@ $('.ideas-container').on('keydown', function (e) {
 function getInputValues() {
   var title = $('#input-title').val();
   var body = $('#input-body').val();
-  var quality = 'swill';
-  return {title: title, body: body, quality: quality};
+  return {
+    title: title,
+    body: body
+  };
 }
 
-// NOTE: new return value is object with timestamp id
-function createElement(inputs) {
+function createIdea(inputs) {
   var id = new Date().getTime();
-  var elementString = `<article id='${id}' class='idea'> \
+  var element =
+  `<article id='${id}' class='idea'> \
     <h2 contenteditable='true'>${inputs.title}</h2> \
     <div id='delete'></div> \
     <p contenteditable='true'>${inputs.body}</p> \
     <div id='vote'> \
       <div id='upvote'></div> \
       <div id='downvote'></div> \
-      quality: ${inputs.quality} \
+      quality: <span id='quality'>swill</span> \
     </div> \
   </article>`;
   return {
       title: inputs.title,
       body: inputs.body,
       id: id,
-      element: elementString,
-      quality: inputs.quality
+      element: element,
+      quality: 'swill'
   };
 }
 
-// NOTE: Add object key element
-// NOTE: Change string argument to object
-// NOTE: Add prepend funcionality
-function addIdea(array, obj) {
-  ideasArray.push(obj);
-  $('.ideas-container').prepend(ideasArray[ideasArray.length - 1].element);
+function addIdea(idea) {
+  $('.ideas-container').prepend(idea.element);
 }
 
 function clearInputs() {
   $('#input-title').val('');
   $('#input-body').val('');
+}
+
+function getIdea(id) {
+  return JSON.parse(localStorage.getItem(id));
+}
+
+function setIdea(idea) {
+  localStorage.setItem(idea.id, JSON.stringify(idea));
+}
+
+function removeIdea(id) {
+  localStorage.removeItem(id);
+}
+
+function populateIdeas() {
+  for (var idea in localStorage) {
+    $('.ideas-container').prepend(JSON.parse(localStorage[idea]).element);
+  }
+}
+
+function upQuality(quality) {
+  switch(quality) {
+    case 'swill':
+      return 'plausible';
+      break;
+    case 'plausible':
+      return 'genius';
+      break;
+    case 'genius':
+      return 'genius';
+      break;
+  }
+}
+
+function downQuality(quality) {
+  switch(quality) {
+    case 'swill':
+      return 'swill';
+      break;
+    case 'plausible':
+      return 'swill';
+      break;
+    case 'genius':
+      return 'plausible';
+      break;
+  }
 }
