@@ -25,13 +25,13 @@ $('.ideas-container').on('click', function(e) {
       idea.quality = upQuality(idea.quality);
       idea.element = buildElement(idea);
       setIdea(idea);
-      $(e.target).parent().parent().html(idea.element);
+      $(e.target).parent().parent().replaceWith(idea.element);
       break;
     case 'downvote':
       idea.quality = downQuality(idea.quality);
       idea.element = buildElement(idea);
       setIdea(idea);
-      $(e.target).parent().parent().html(idea.element);
+      $(e.target).parent().parent().replaceWith(idea.element);
       break;
   }
 });
