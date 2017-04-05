@@ -12,7 +12,6 @@ $('#btn-save').on('click', function (e) {
   $('#btn-save').prop('disabled', true);
 });
 
-// BUG: votes add aditional article to old article
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
   var idea = getIdea($(e.target).parent().parent()[0].id);
@@ -46,39 +45,21 @@ $('#inputs').on('keyup', function () {
 
 // TODO: Search Input: on keyup, test if empty
 
-$('.ideas-container').on('keyup',, function (e) {
-  var idea = getIdea($(e.target).parent()[0].id);
-  console.log(idea.title);
+$('.ideas-container').on('keyup', function (e) {
   var key = e.which;
 
-  idea.title = $('#idea-title').text();
-  console.log("this.find ", $(this).find('#idea-title'));
-  console.log("title: ", idea.title);
-  idea.body = $('#idea-body').text();
-  console.log(idea.id);
-  
-  if (key === 27) {
-    // loses something
-    $(e.target).parent().parent().html(idea.element);
+  if (key === 13) {
     $(e.target).blur();
-  } else if (key === 13) {
-    // BUG: except for that weird div it makes that disappears on refresh?
-    idea.element = buildElement(idea);
-    // console.log("idea 2: ",idea);
-    setIdea(idea);
-    $(e.target).blur();
-    $(e.target).parent().replaceWith(idea.element);
   }
 });
 
-$(document).on('click', function(e) {
-  if (!$(e.target).closest('.ideas-container').length) {
-    // if the user clicks outside the container, we need to set those changes to local storage.
-    // how to capture the changes that happened since target isn't the thing that changes?
-    // setIdea(idea);
-    console.log(localStorage);
-    return;
-  }
+$('.ideas-container').on('focusout', function(e) {
+  var idea = getIdea($(e.target).parent()[0].id);
+  idea.title = $(this).find(`h2.${idea.id}`).text();
+  idea.body = $(this).find(`p.${idea.id}`).text();
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(e.target).parent().replaceWith(idea.element);
 });
 
 // ----- Function -----
@@ -105,9 +86,9 @@ function createIdea(inputs) {
 
 function buildElement(obj) {
   return `<article id='${obj.id}' class='idea'> \
-  <h2 id='idea-title' contenteditable>${obj.title}</h2> \
+  <h2 class='${obj.id}' contenteditable>${obj.title}</h2> \
   <div id='delete'></div> \
-  <p id='idea-body' contenteditable>${obj.body}</p> \
+  <p class='${obj.id}' contenteditable>${obj.body}</p> \
   <div id='vote'> \
   <div id='upvote'></div> \
   <div id='downvote'></div> \
