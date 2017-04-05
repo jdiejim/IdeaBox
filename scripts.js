@@ -9,7 +9,9 @@ $('#btn-save').on('click', function (e) {
   setIdea(idea);
   addIdea(idea);
   clearInputs();
+  $('#btn-save').prop('disabled', true);
 });
+
 // BUG: votes add aditional article to old article
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
@@ -44,36 +46,36 @@ $('#inputs').on('keyup', function () {
 
 // TODO: Search Input: on keyup, test if empty
 
-// TODO: contenteditable elements: on keyup, close field on return
 $('.ideas-container').on('keyup', function (e) {
-  var idea = getIdea($(e.target).parent().parent()[0].id);
-  console.log(idea);
+  var idea = getIdea($(e.target).parent()[0].id);
   var key = e.which;
-  console.log(key);
   
-  // if (key === 27) {
-  //   $(e.target).blur();
-  //   return;
-  // } else {
-  //   if (key === 13) {
-  //     $(e.target).blur();
-  //     setIdea()
-  //     
-  //   } else {
-  //     switch(e.target.id) {
-  //       case 'idea-title':
-  //         idea.title = $(e.target).text();
-  //         break;
-  //       case 'idea-body':
-  //         idea.body = $(e.target).text();
-  //         break;
-  //   }
-  // }
+  // escape is working :)
+  if (key === 27) {
+    $(e.target).parent().parent().html(idea.element);
+    $(e.target).blur();
+    return;
+  } else if (key === 13) {
+    // enter is working :D
+    // BUG: except for that weird div it makes that disappears on refresh?
+    idea.title = $('#idea-title').text();
+    idea.body = $('#idea-body').text();
+    idea.element = buildElement(idea);
+    setIdea(idea);
+    $(e.target).blur();
+    console.log(localStorage);
+    return;
+  }
 });
 
-$('#idea-title, #idea-body').blur(function (e) {
-  setIdea(idea);
-  // console.log('blur!');
+$(document).on('click', function(e) {
+  if (!$(e.target).closest('.ideas-container').length) {
+    // if the user clicks outside the container, we need to set those changes to local storage.
+    // how to capture the changes that happened since target isn't the thing that changes?
+    setIdea(idea);
+    console.log(localStorage);
+    return;
+  }
 });
 
 // ----- Function -----
