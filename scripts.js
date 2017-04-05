@@ -46,25 +46,28 @@ $('#inputs').on('keyup', function () {
 
 // TODO: Search Input: on keyup, test if empty
 
-$('.ideas-container').on('keyup', function (e) {
+$('.ideas-container').on('keyup',, function (e) {
   var idea = getIdea($(e.target).parent()[0].id);
+  console.log(idea.title);
   var key = e.which;
+
+  idea.title = $('#idea-title').text();
+  console.log("this.find ", $(this).find('#idea-title'));
+  console.log("title: ", idea.title);
+  idea.body = $('#idea-body').text();
+  console.log(idea.id);
   
-  // escape is working :)
   if (key === 27) {
+    // loses something
     $(e.target).parent().parent().html(idea.element);
     $(e.target).blur();
-    return;
   } else if (key === 13) {
-    // enter is working :D
     // BUG: except for that weird div it makes that disappears on refresh?
-    idea.title = $('#idea-title').text();
-    idea.body = $('#idea-body').text();
     idea.element = buildElement(idea);
+    // console.log("idea 2: ",idea);
     setIdea(idea);
     $(e.target).blur();
-    console.log(localStorage);
-    return;
+    $(e.target).parent().replaceWith(idea.element);
   }
 });
 
@@ -72,7 +75,7 @@ $(document).on('click', function(e) {
   if (!$(e.target).closest('.ideas-container').length) {
     // if the user clicks outside the container, we need to set those changes to local storage.
     // how to capture the changes that happened since target isn't the thing that changes?
-    setIdea(idea);
+    // setIdea(idea);
     console.log(localStorage);
     return;
   }
