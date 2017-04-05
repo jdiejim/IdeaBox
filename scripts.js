@@ -43,7 +43,31 @@ $('#inputs').on('keyup', function () {
   }
 });
 
-// TODO: Search Input: on keyup, test if empty
+$('#search').on('keyup', function() {
+  $('.ideas-container').html('');
+  var searchValue = $(this).val().toUpperCase();
+  if (searchValue !== '') {
+    var filteredArray = [];
+    for (var i in localStorage) {
+      filteredArray.push(JSON.parse(localStorage[i]));
+    }
+    filteredArray = filteredArray.filter(function(idea) {
+      return idea.title.toUpperCase().indexOf(searchValue) !== -1 ||
+             idea.body.toUpperCase().indexOf(searchValue) !== -1;
+    });
+    var filteredObj = filteredArray.reduce(function(obj, idea) {
+      obj[idea.id] = idea;
+      return obj;
+    }, {});
+    for (var idea in filteredObj) {
+      $('.ideas-container').prepend(filteredObj[idea].element);
+    }
+  } else {
+    populateIdeas();
+  }
+});
+
+
 
 $('.ideas-container').on('keyup', function (e) {
   var key = e.which;
