@@ -40,22 +40,28 @@ $('.ideas-container').on('click', function(e) {
 $('.ideas-container').on('keyup', function (e) {
   var idea = getIdea($(e.target).parent()[0].id);
   var key = e.which;
-  if (key === 13) {
-    setIdea(idea);
-    console.log(idea);
-    $(e.target).blur();    
-  } else if (key === 27) {
+  
+  if (key === 27) {
     $(e.target).blur();
   } else {
-    switch(e.target.id) {
-      case 'idea-title':
-        idea.title = $(e.target).text();
-        break;
-      case 'idea-body':
-        idea.body = $(e.target).text();
-        break;
+    if (key === 13) {
+      $(e.target).blur();
+      setIdea()
+    } else {
+      switch(e.target.id) {
+        case 'idea-title':
+          idea.title = $(e.target).text();
+          break;
+        case 'idea-body':
+          idea.body = $(e.target).text();
+          break;
     }
   }
+});
+
+$('#idea-title, #idea-body').blur(function (e) {
+  setIdea(idea);
+  // console.log('blur!');
 });
 
 // ----- Function -----
@@ -82,9 +88,9 @@ function createIdea(inputs) {
 
 function buildElement(obj) {
   return `<article id='${obj.id}' class='idea'> \
-  <h2>${obj.title}</h2> \
+  <h2 id='idea-title' contenteditable>${obj.title}</h2> \
   <div id='delete'></div> \
-  <p>${obj.body}</p> \
+  <p id='idea-body' contenteditable>${obj.body}</p> \
   <div id='vote'> \
   <div id='upvote'></div> \
   <div id='downvote'></div> \
