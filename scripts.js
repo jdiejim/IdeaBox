@@ -21,17 +21,17 @@ $('.ideas-container').on('click', function(e) {
       break;
     case 'upvote':
       idea.quality = upQuality(idea.quality);
-      console.log(idea);
+      idea.element = buildElement(idea);
       setIdea(idea);
-      $('#quality').html(idea.quality);
+      $(e.target).parent().parent().html(idea.element);
       break;
     case 'downvote':
       idea.quality = downQuality(idea.quality);
+      idea.element = buildElement(idea);
       setIdea(idea);
-      $('#quality').html(idea.quality);
+      $(e.target).parent().parent().html(idea.element);
       break;
   }
-  console.log(idea.quality);
 });
 
 // TODO: Search Input: on keyup, test if empty
@@ -64,30 +64,33 @@ function getInputValues() {
   var body = $('#input-body').val();
   return {
     title: title,
-    body: body
+    body: body,
+    id: new Date().getTime(),
+    quality: 'swill'
   };
 }
 
 function createIdea(inputs) {
-  var id = new Date().getTime();
-  var element =
-  `<article id='${id}' class='idea'> \
-    <h2 id='idea-title' contenteditable='true'>${inputs.title}</h2> \
-    <div id='delete'></div> \
-    <p id='idea-body' contenteditable='true'>${inputs.body}</p> \
-    <div id='vote'> \
-      <div id='upvote'></div> \
-      <div id='downvote'></div> \
-      quality: <span id='quality'>swill</span> \
-    </div> \
-  </article>`;
   return {
       title: inputs.title,
       body: inputs.body,
-      id: id,
-      element: element,
+      id: inputs.id,
+      element: buildElement(inputs),
       quality: 'swill'
   };
+}
+
+function buildElement(obj) {
+  return `<article id='${obj.id}' class='idea'> \
+  <h2>${obj.title}</h2> \
+  <div id='delete'></div> \
+  <p>${obj.body}</p> \
+  <div id='vote'> \
+  <div id='upvote'></div> \
+  <div id='downvote'></div> \
+  quality: <span id='quality'>${obj.quality}</span> \
+  </div> \
+  </article>`;
 }
 
 function addIdea(idea) {
@@ -121,13 +124,10 @@ function upQuality(quality) {
   switch(quality) {
     case 'swill':
       return 'plausible';
-      break;
     case 'plausible':
       return 'genius';
-      break;
     case 'genius':
       return 'genius';
-      break;
   }
 }
 
@@ -135,12 +135,9 @@ function downQuality(quality) {
   switch(quality) {
     case 'swill':
       return 'swill';
-      break;
     case 'plausible':
       return 'swill';
-      break;
     case 'genius':
       return 'plausible';
-      break;
   }
 }
