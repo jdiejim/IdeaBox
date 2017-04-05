@@ -1,15 +1,14 @@
 <!doctype html>
 <html>
   <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IdeaBox</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href='styles.css' type='text/css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab:700" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab:700' rel='stylesheet'>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
   </head>
   <body>
-
-    <header>
+    <header role='banner'>
       <h1>idea<span>box</span></h1>
       <form id='inputs'>
         <input id='input-title' type='text' placeholder='Title'/>
@@ -17,11 +16,10 @@
         <button id='btn-save' disabled>save</button>
       </form>
     </header>
-    <main>
-      <input id='search' type='text' placeholder='Search'/>
-      <section class="ideas-container">
+    <main role='main'>
+      <input id='search' type='text' placeholder='Search' role='search'/>
+      <section class='ideas-container'></section>
     </main>
     <script src='scripts.js'></script>
   </body>
-</section>
 </html>
