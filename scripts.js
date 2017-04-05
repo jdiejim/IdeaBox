@@ -21,17 +21,17 @@ $('.ideas-container').on('click', function(e) {
       break;
     case 'upvote':
       idea.quality = upQuality(idea.quality);
-      console.log(idea);
+      idea.element = updateElement(idea);
       setIdea(idea);
       $('#quality').html(idea.quality);
       break;
     case 'downvote':
       idea.quality = downQuality(idea.quality);
+      idea.element = updateElement(idea);
       setIdea(idea);
       $('#quality').html(idea.quality);
       break;
   }
-  console.log(idea.quality);
 });
 
 // TODO: Search Input: on keyup, test if empty
@@ -121,4 +121,17 @@ function downQuality(quality) {
       return 'plausible';
       break;
   }
+}
+
+function updateElement(idea) {
+  return `<article id='${idea.id}' class='idea'> \
+    <h2>${idea.title}</h2> \
+    <div id='delete'></div> \
+    <p>${idea.body}</p> \
+    <div id='vote'> \
+      <div id='upvote'></div> \
+      <div id='downvote'></div> \
+      quality: <span id='quality'>${idea.quality}</span> \
+    </div> \
+  </article>`;
 }
