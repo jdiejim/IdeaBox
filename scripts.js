@@ -38,25 +38,29 @@ $('.ideas-container').on('click', function(e) {
 
 // TODO: contenteditable elements: on keyup, close field on return
 $('.ideas-container').on('keyup', function (e) {
-  var idea = getIdea($(e.target).parent()[0].id);
+  var idea = getIdea($(e.target).parent().parent()[0].id);
+  console.log(idea);
   var key = e.which;
+  console.log(key);
   
-  if (key === 27) {
-    $(e.target).blur();
-  } else {
-    if (key === 13) {
-      $(e.target).blur();
-      setIdea()
-    } else {
-      switch(e.target.id) {
-        case 'idea-title':
-          idea.title = $(e.target).text();
-          break;
-        case 'idea-body':
-          idea.body = $(e.target).text();
-          break;
-    }
-  }
+  // if (key === 27) {
+  //   $(e.target).blur();
+  //   return;
+  // } else {
+  //   if (key === 13) {
+  //     $(e.target).blur();
+  //     setIdea()
+  //     
+  //   } else {
+  //     switch(e.target.id) {
+  //       case 'idea-title':
+  //         idea.title = $(e.target).text();
+  //         break;
+  //       case 'idea-body':
+  //         idea.body = $(e.target).text();
+  //         break;
+  //   }
+  // }
 });
 
 $('#idea-title, #idea-body').blur(function (e) {
