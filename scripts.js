@@ -37,11 +37,24 @@ $('.ideas-container').on('click', function(e) {
 // TODO: Search Input: on keyup, test if empty
 
 // TODO: contenteditable elements: on keyup, close field on return
-$('.ideas-container').on('keydown', function (e) {
+$('.ideas-container').on('keyup', function (e) {
+  var idea = getIdea($(e.target).parent()[0].id);
   var key = e.which;
   if (key === 13) {
-    console.log(key);
-    $('#input-title').focus();  // why isn't this workingggggggg?????
+    setIdea(idea);
+    console.log(idea);
+    $(e.target).blur();    
+  } else if (key === 27) {
+    $(e.target).blur();
+  } else {
+    switch(e.target.id) {
+      case 'idea-title':
+        idea.title = $(e.target).text();
+        break;
+      case 'idea-body':
+        idea.body = $(e.target).text();
+        break;
+    }
   }
 });
 
@@ -59,9 +72,9 @@ function createIdea(inputs) {
   var id = new Date().getTime();
   var element =
   `<article id='${id}' class='idea'> \
-    <h2 contenteditable='true'>${inputs.title}</h2> \
+    <h2 id='idea-title' contenteditable='true'>${inputs.title}</h2> \
     <div id='delete'></div> \
-    <p contenteditable='true'>${inputs.body}</p> \
+    <p id='idea-body' contenteditable='true'>${inputs.body}</p> \
     <div id='vote'> \
       <div id='upvote'></div> \
       <div id='downvote'></div> \
