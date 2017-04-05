@@ -9,8 +9,9 @@ $('#btn-save').on('click', function (e) {
   setIdea(idea);
   addIdea(idea);
   clearInputs();
+  $('#btn-save').prop('disabled', true);
 });
-// BUG: votes add aditional article to old article
+
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
   var idea = getIdea($(e.target).parent().parent()[0].id);
@@ -44,6 +45,23 @@ $('#inputs').on('keyup', function () {
 
 // TODO: Search Input: on keyup, test if empty
 
+$('.ideas-container').on('keyup', function (e) {
+  var key = e.which;
+
+  if (key === 13) {
+    $(e.target).blur();
+  }
+});
+
+$('.ideas-container').on('focusout', function(e) {
+  var idea = getIdea($(e.target).parent()[0].id);
+  idea.title = $(this).find(`h2.${idea.id}`).text();
+  idea.body = $(this).find(`p.${idea.id}`).text();
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(e.target).parent().replaceWith(idea.element);
+});
+
 // ----- Function -----
 function getInputValues() {
   var title = $('#input-title').val();
@@ -68,9 +86,9 @@ function createIdea(inputs) {
 
 function buildElement(obj) {
   return `<article id='${obj.id}' class='idea'> \
-  <h2>${obj.title}</h2> \
+  <h2 class='${obj.id}' contenteditable>${obj.title}</h2> \
   <div id='delete'></div> \
-  <p>${obj.body}</p> \
+  <p class='${obj.id}' contenteditable>${obj.body}</p> \
   <div id='vote'> \
   <div id='upvote'></div> \
   <div id='downvote'></div> \
