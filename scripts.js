@@ -67,11 +67,8 @@ $('#search').on('keyup', function() {
   }
 });
 
-
-
 $('.ideas-container').on('keyup', function (e) {
   var key = e.which;
-
   if (key === 13) {
     $(e.target).blur();
   }
@@ -86,7 +83,7 @@ $('.ideas-container').on('focusout', function(e) {
   $(e.target).parent().replaceWith(idea.element);
 });
 
-// ----- Function -----
+// ----- Functions -----
 function getInputValues() {
   var title = $('#input-title').val();
   var body = $('#input-body').val();
