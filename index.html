@@ -1,18 +1,20 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IdeaBox</title>
     <link href='styles.css' type='text/css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab:700" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
+
     <header>
       <h1>idea<span>box</span></h1>
       <form id='inputs'>
         <input id='input-title' type='text' placeholder='Title'/>
         <input id='input-body' type='text' placeholder='Body'/>
-        <button id='btn-save'>save</button>
+        <button id='btn-save' disabled>save</button>
       </form>
     </header>
     <main>
@@ -30,9 +32,9 @@
             quality: hard-coded swill
           </div>
         </article> -->
-      </section>
       <!-- End of the idea -->
     </main>
     <script src='scripts.js'></script>
   </body>
+</section>
 </html>

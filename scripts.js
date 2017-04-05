@@ -10,7 +10,7 @@ $('#btn-save').on('click', function (e) {
   addIdea(idea);
   clearInputs();
 });
-
+// BUG: votes add aditional article to old article
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
   var idea = getIdea($(e.target).parent().parent()[0].id);
@@ -31,6 +31,14 @@ $('.ideas-container').on('click', function(e) {
       setIdea(idea);
       $(e.target).parent().parent().html(idea.element);
       break;
+  }
+});
+
+$('#inputs').on('keyup', function () {
+  if ($('#input-title').val() !== "" && $('#input-body').val() !== "") {
+    $('#btn-save').prop('disabled', false);
+  } else {
+    $('#btn-save').prop('disabled', true);
   }
 });
 
