@@ -1,5 +1,7 @@
 // ----- Setup -----
 populateIdeas();
+validateSortButton();
+
 
 // ----- Events -----
 $('#inputs').on('keyup', validateButton);
@@ -26,7 +28,7 @@ function saveIdea(e) {
   prependIdea(idea);
   clearInputs();
   $(this).prop('disabled', true);
-  console.log(idea);
+  validateSortButton();
 }
 
 function createIdea() {
@@ -69,6 +71,7 @@ function clearInputs() {
 function deleteIdea() {
   removeIdea($(this).parent().prop('id'));
   $(this).parent().remove();
+  validateSortButton();
 }
 
 function removeIdea(id) {
@@ -198,5 +201,13 @@ function validateButton() {
     $('#btn-save').prop('disabled', false);
   } else {
     $('#btn-save').prop('disabled', true);
+  }
+}
+
+function validateSortButton() {
+  if ($('.ideas-container').html() !== '') {
+    $('#sort').prop('disabled', false);
+  } else {
+    $('#sort').prop('disabled', true);
   }
 }
