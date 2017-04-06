@@ -8,6 +8,7 @@ $('#inputs').on('keyup', validateSaveButton);
 $('#btn-save').on('click', saveIdea);
 $('#search').on('keyup', searchIdea);
 $('#sort').on('click', sortIdeas);
+$('.tag').on('click', addTag)
 $('.ideas-container').on('click', '.delete', deleteIdea)
                      .on('click', '.upvote', upVote)
                      .on('click', '.downvote', downVote)
@@ -237,14 +238,16 @@ function addTag() {
   $('#input-tags').val(tags);
 }
 
-$('.tag').on('click', addTag)
-
 function fetchTags() {
+  $('.tags-container').html('');
   var newArr = [];
   var arr = retrieveForStagingArray();
   arr.forEach(function(e) {
     newArr = newArr.concat(e.tags);
   })
+  newArr = newArr.filter(function(element, i) {
+    return newArr.indexOf(element) === i;
+  });
   var string = buildTags(newArr);
   $('.tags-container').prepend(string);
 }
