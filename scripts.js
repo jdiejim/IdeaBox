@@ -2,7 +2,6 @@
 populateIdeas();
 validateSortButton();
 
-
 // ----- Events -----
 $('#inputs').on('keyup', validateButton);
 $('#btn-save').on('click', saveIdea);
