@@ -1,6 +1,7 @@
 // ----- Setup -----
 populateIdeasContainer();
 validateSortButton();
+fetchTags();
 
 // ----- Events -----
 $('#inputs').on('keyup', validateSaveButton);
@@ -28,6 +29,7 @@ function saveIdea(e) {
   clearInputs();
   $(this).prop('disabled', true);
   validateSortButton();
+  fetchTags();
 }
 
 function createIdeaObject() {
@@ -35,8 +37,10 @@ function createIdeaObject() {
     title: $('#input-title').val(),
     body: $('#input-body').val(),
     id: new Date().getTime(),
-    quality: 'swill'
+    quality: 'swill',
+    tags: $('#input-tags').val().split(' ')
   }
+  inputsObj.tagsElement = buildTags(inputsObj.tags);
   inputsObj.element = buildElement(inputsObj);
   return inputsObj;
 }
@@ -51,7 +55,16 @@ function buildElement(obj) {
   <div class='downvote'></div>
   quality: <span class='quality'>${obj.quality}</span>
   </div>
+  <div class='tags'>${obj.tagsElement}</div>
   </article>`;
+}
+
+function buildTags(array) {
+  var tagElements = '';
+  array.forEach(function(tag) {
+    tagElements += '<div class="tag">' + tag + '</div>';
+  });
+  return tagElements;
 }
 
 function storeIdea(idea) {
@@ -65,6 +78,7 @@ function prependIdea(idea) {
 function clearInputs() {
   $('#input-title').val('');
   $('#input-body').val('');
+  $('#input-tags').val('');
 }
 
 function deleteIdea() {
@@ -154,7 +168,8 @@ function searchIdea() {
 function filterObjectBy(value) {
   var filteredArray = retrieveForStagingArray().filter(function(idea) {
     return idea.title.toUpperCase().indexOf(value) !== -1 ||
-           idea.body.toUpperCase().indexOf(value) !== -1;
+           idea.body.toUpperCase().indexOf(value) !== -1 ||
+           idea.tags.join(' ').toUpperCase().indexOf(value) !== -1;
   });
   var filteredObj = filteredArray.reduce(function(obj, idea) {
     obj[idea.id] = idea;
@@ -214,4 +229,22 @@ function validateSortButton() {
   } else {
     $('#sort').prop('disabled', true);
   }
+}
+
+function addTag() {
+  var tags = $('#input-tags').val();
+  tags += $(this).text() + ' ';
+  $('#input-tags').val(tags);
+}
+
+$('.tag').on('click', addTag)
+
+function fetchTags() {
+  var newArr = [];
+  var arr = retrieveForStagingArray();
+  arr.forEach(function(e) {
+    newArr = newArr.concat(e.tags);
+  })
+  var string = buildTags(newArr);
+  $('.tags-container').prepend(string);
 }
