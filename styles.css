@@ -85,7 +85,7 @@ button:disabled {
 
 .idea p {
   width: 100%;
-  margin: 20px 0px;
+  margin: 0 0 20px 0;
 }
 
 #quality {
