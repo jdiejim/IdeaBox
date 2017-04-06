@@ -12,6 +12,22 @@ $('.ideas-container').on('click', '.delete', deleteIdea)
                      .on('keyup', removeEnterKeyBlur);
 
 // ----- Functions -----
+function populateIdeas() {
+  for (var idea in localStorage) {
+    $('.ideas-container').prepend(JSON.parse(localStorage[idea]).element);
+  }
+}
+
+function saveIdea(e) {
+  e.preventDefault();
+  var inputs = getInputValues();
+  var idea = createIdea(inputs);
+  setIdea(idea);
+  prependIdea(idea);
+  clearInputs();
+  $(this).prop('disabled', true);
+}
+
 function getInputValues() {
   var title = $('#input-title').val();
   var body = $('#input-body').val();
@@ -46,6 +62,10 @@ function buildElement(obj) {
   </article>`;
 }
 
+function setIdea(idea) {
+  localStorage.setItem(idea.id, JSON.stringify(idea));
+}
+
 function prependIdea(idea) {
   $('.ideas-container').prepend(idea.element);
 }
@@ -55,28 +75,25 @@ function clearInputs() {
   $('#input-body').val('');
 }
 
-function getIdea(id) {
-  return JSON.parse(localStorage.getItem(id));
-}
-
-function setIdea(idea) {
-  localStorage.setItem(idea.id, JSON.stringify(idea));
+function deleteIdea() {
+  removeIdea($(this).parent().prop('id'));
+  $(this).parent().remove();
 }
 
 function removeIdea(id) {
   localStorage.removeItem(id);
 }
 
-function populateIdeas() {
-  for (var idea in localStorage) {
-    $('.ideas-container').prepend(JSON.parse(localStorage[idea]).element);
-  }
+function getIdea(id) {
+  return JSON.parse(localStorage.getItem(id));
 }
 
-function populateFilteredIdeas(obj) {
-  for (var idea in obj) {
-    $('.ideas-container').prepend(obj[idea].element);
-  }
+function upVote() {
+  var idea = getIdea($(this).parents('.idea').prop('id'));
+  idea.quality = upQuality(idea.quality);
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(this).parents('.idea').replaceWith(idea.element);
 }
 
 function upQuality(quality) {
@@ -90,6 +107,14 @@ function upQuality(quality) {
   }
 }
 
+function downVote() {
+  var idea = getIdea($(this).parents('.idea').prop('id'));
+  idea.quality = downQuality(idea.quality);
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(this).parents('.idea').replaceWith(idea.element);
+}
+
 function downQuality(quality) {
   switch(quality) {
     case 'swill':
@@ -101,27 +126,6 @@ function downQuality(quality) {
   }
 }
 
-function deleteIdea() {
-  removeIdea($(this).parent().prop('id'));
-  $(this).parent().remove();
-}
-
-function upVote() {
-  var idea = getIdea($(this).parents('.idea').prop('id'));
-  idea.quality = upQuality(idea.quality);
-  idea.element = buildElement(idea);
-  setIdea(idea);
-  $(this).parents('.idea').replaceWith(idea.element);
-}
-
-function downVote() {
-  var idea = getIdea($(this).parents('.idea').prop('id'));
-  idea.quality = downQuality(idea.quality);
-  idea.element = buildElement(idea);
-  setIdea(idea);
-  $(this).parents('.idea').replaceWith(idea.element);
-}
-
 function editElementText() {
   var idea = getIdea($(this).parent().prop('id'));
   idea.title = $(this).parent().find('h2').text();
@@ -129,6 +133,12 @@ function editElementText() {
   idea.element = buildElement(idea);
   setIdea(idea);
   $(this).parent().replaceWith(idea.element);
+}
+
+function populateFilteredIdeas(obj) {
+  for (var idea in obj) {
+    $('.ideas-container').prepend(obj[idea].element);
+  }
 }
 
 function removeEnterKeyBlur(e) {
@@ -175,14 +185,4 @@ function validateButton() {
   } else {
     $('#btn-save').prop('disabled', true);
   }
-}
-
-function saveIdea(e) {
-  e.preventDefault();
-  var inputs = getInputValues();
-  var idea = createIdea(inputs);
-  setIdea(idea);
-  prependIdea(idea);
-  clearInputs();
-  $(this).prop('disabled', true);
 }
