@@ -63,6 +63,10 @@ button:disabled {
   color: #D1D3D4;
 }
 
+.sorted {
+  background-color: #FF8E37;
+}
+
 .idea {
   display: flex;
   flex-wrap: wrap;
