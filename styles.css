@@ -107,6 +107,11 @@ button:disabled {
   background-size: contain;
 }
 
+#upvote:disabled,
+#downvote:disabled {
+  opacity: 0.5;
+}
+
 #delete {
   background-image: url('images/delete.svg');
 }
