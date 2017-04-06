@@ -12,28 +12,9 @@ $('#btn-save').on('click', function (e) {
   $('#btn-save').prop('disabled', true);
 });
 
-$('.ideas-container').on('click', function(e) {
-  var childId = $(e.target).parent()[0].id;
-  var idea = getIdea($(e.target).parent().parent()[0].id);
-  switch(e.target.className) {
-    case 'delete':
-      $(e.target).parent().remove();
-      removeIdea(childId);
-      break;
-    case 'upvote':
-      idea.quality = upQuality(idea.quality);
-      idea.element = buildElement(idea);
-      setIdea(idea);
-      $(e.target).parent().parent().replaceWith(idea.element);
-      break;
-    case 'downvote':
-      idea.quality = downQuality(idea.quality);
-      idea.element = buildElement(idea);
-      setIdea(idea);
-      $(e.target).parent().parent().replaceWith(idea.element);
-      break;
-  }
-});
+$('.ideas-container').on('click', '.delete', deleteIdea)
+                     .on('click', '.upvote', upVote)
+                     .on('click', '.downvote', downVote);
 
 $('#inputs').on('keyup', function () {
   if ($('#input-title').val() !== "" && $('#input-body').val() !== "") {
@@ -167,4 +148,23 @@ function downQuality(quality) {
   }
 }
 
-// FIXME: delete, vote, updvote, downvote
+function deleteIdea() {
+  removeIdea($(this).parent().prop('id'));
+  $(this).parent().remove();
+}
+
+function upVote() {
+  var idea = getIdea($(this).parents('.idea').prop('id'));
+  idea.quality = upQuality(idea.quality);
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(this).parents('.idea').replaceWith(idea.element);
+}
+
+function downVote() {
+  var idea = getIdea($(this).parents('.idea').prop('id'));
+  idea.quality = downQuality(idea.quality);
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(this).parents('.idea').replaceWith(idea.element);
+}
