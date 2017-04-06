@@ -16,7 +16,7 @@ main {
 }
 
 header {
-  height: 320px;
+  height: 390px;
   background-color: #E5F3F2;
 }
 
@@ -138,8 +138,29 @@ input {
   background-image: url('images/downvote-hover.svg');
 }
 
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+}
+
+.tags {
+  display: flex;
+  width: 100%;
+}
+
+.tag {
+  font-weight: lighter;
+  font-size: 12px;
+  background-color: rgb(3, 168, 99);
+  padding: 2px 10px;
+  border-radius: 10px;
+  color: white;
+  margin: 3px 3px 5px 0;
+}
+
 @media (max-width: 650px) {
-  
+
   input,
   button,
   .idea {
@@ -163,8 +184,8 @@ input {
   .idea {
     width: 280px;
     font-size: 1.2em;
-  }  
-  
+  }
+
   .idea {
     font-size: 1em;
   }
