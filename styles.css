@@ -28,7 +28,7 @@ h1 {
 
 h1 span,
 h2,
-#vote {
+.vote {
   color: #6D6E71;
 }
 
@@ -76,7 +76,7 @@ button:disabled {
   width: 95%;
 }
 
-#delete {
+.delete {
   width: 5%;
   margin: 0;
   background-position: center;
@@ -88,51 +88,47 @@ button:disabled {
   margin: 0 0 20px 0;
 }
 
-#quality {
+.quality {
   margin-left: 6px;
   font-family: 'Open Sans';
 }
 
-#vote {
+.vote {
+  width: 100%;
   display: flex;
   width: 100%;
   margin-bottom: 10px;
 }
 
-#upvote,
-#downvote {
+.upvote,
+.downvote {
   width: 7%;
   background-position: 0 50%;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-#upvote:disabled,
-#downvote:disabled {
-  opacity: 0.5;
-}
-
-#delete {
+.delete {
   background-image: url('images/delete.svg');
 }
 
-#delete:hover {
+.delete:hover {
   background-image: url('images/delete-hover.svg');
 }
 
-#upvote {
+.upvote {
   background-image: url('images/upvote.svg');
 }
 
-#upvote:hover {
+.upvote:hover {
   background-image: url('images/upvote-hover.svg');
 }
 
-#downvote {
+.downvote {
   background-image: url('images/downvote.svg');
 }
 
-#downvote:hover {
+.downvote:hover {
   background-image: url('images/downvote-hover.svg');
 }
 

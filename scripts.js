@@ -15,7 +15,7 @@ $('#btn-save').on('click', function (e) {
 $('.ideas-container').on('click', function(e) {
   var childId = $(e.target).parent()[0].id;
   var idea = getIdea($(e.target).parent().parent()[0].id);
-  switch(e.target.id) {
+  switch(e.target.className) {
     case 'delete':
       $(e.target).parent().remove();
       removeIdea(childId);
@@ -106,15 +106,15 @@ function createIdea(inputs) {
 }
 
 function buildElement(obj) {
-  return `<article id='${obj.id}' class='idea'> \
-  <h2 class='${obj.id}' contenteditable>${obj.title}</h2> \
-  <div id='delete'></div> \
-  <p class='${obj.id}' contenteditable>${obj.body}</p> \
-  <div id='vote'> \
-  <div id='upvote'></div> \
-  <div id='downvote'></div> \
-  quality: <span id='quality'>${obj.quality}</span> \
-  </div> \
+  return `<article id='${obj.id}' class='idea'>
+  <h2 class='${obj.id}' contenteditable>${obj.title}</h2>
+  <div class='delete'></div>
+  <p class='${obj.id}' contenteditable>${obj.body}</p>
+  <div class='vote'>
+  <div class='upvote'></div>
+  <div class='downvote'></div>
+  quality: <span class='quality'>${obj.quality}</span>
+  </div>
   </article>`;
 }
 
@@ -166,3 +166,5 @@ function downQuality(quality) {
       return 'plausible';
   }
 }
+
+// FIXME: delete, vote, updvote, downvote
