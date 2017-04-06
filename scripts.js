@@ -167,7 +167,7 @@ function sortIdeas() {
   switch ($(this).prop('class')) {
     case '':
       $(this).toggleClass('sorted');
-      $(this).text('Sorted');
+      $(this).text('sorted');
       var sortedObject = localStorageToArray().sort(function(a, b) {
         if (a.quality > b.quality) { return -1 }
         if (a.quality < b.quality) { return 1 }
@@ -181,7 +181,7 @@ function sortIdeas() {
 
     case 'sorted':
       $(this).toggleClass('sorted');
-      $(this).text('Sort');
+      $(this).text('sort');
       populateIdeas();
       break;
   }
