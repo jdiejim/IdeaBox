@@ -169,7 +169,8 @@ function sortIdeas() {
   $('.ideas-container').html('');
   switch ($(this).prop('class')) {
     case '':
-      $(this).prop('class', 'sorted');
+      $(this).toggleClass('sorted');
+      $(this).text('sorted');
       var sortedObject = localStorageToArray().sort(function(a, b) {
         if (a.quality > b.quality) { return -1 }
         if (a.quality < b.quality) { return 1 }
@@ -182,7 +183,8 @@ function sortIdeas() {
       break;
 
     case 'sorted':
-      $(this).prop('class', '');
+      $(this).toggleClass('sorted');
+      $(this).text('sort');
       populateIdeas();
       break;
   }
