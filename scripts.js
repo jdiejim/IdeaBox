@@ -1,9 +1,9 @@
 // ----- Setup -----
-populateIdeas();
+populateIdeasContainer();
 validateSortButton();
 
 // ----- Events -----
-$('#inputs').on('keyup', validateButton);
+$('#inputs').on('keyup', validateSaveButton);
 $('#btn-save').on('click', saveIdea);
 $('#search').on('keyup', searchIdea);
 $('#sort').on('click', sortIdeas);
@@ -11,10 +11,10 @@ $('.ideas-container').on('click', '.delete', deleteIdea)
                      .on('click', '.upvote', upVote)
                      .on('click', '.downvote', downVote)
                      .on('focusout', '.edit', editElementText)
-                     .on('keyup', removeEnterKeyBlur);
+                     .on('keyup', enterKeyBlur);
 
 // ----- Functions -----
-function populateIdeas() {
+function populateIdeasContainer() {
   for (var idea in localStorage) {
     $('.ideas-container').prepend(JSON.parse(localStorage[idea]).element);
   }
@@ -22,15 +22,15 @@ function populateIdeas() {
 
 function saveIdea(e) {
   e.preventDefault();
-  var idea = createIdea(inputs);
-  setIdea(idea);
+  var idea = createIdeaObject();
+  storeIdea(idea);
   prependIdea(idea);
   clearInputs();
   $(this).prop('disabled', true);
   validateSortButton();
 }
 
-function createIdea() {
+function createIdeaObject() {
   var inputsObj = {
     title: $('#input-title').val(),
     body: $('#input-body').val(),
@@ -54,7 +54,7 @@ function buildElement(obj) {
   </article>`;
 }
 
-function setIdea(idea) {
+function storeIdea(idea) {
   localStorage.setItem(idea.id, JSON.stringify(idea));
 }
 
@@ -68,24 +68,24 @@ function clearInputs() {
 }
 
 function deleteIdea() {
-  removeIdea($(this).parent().prop('id'));
+  removeIdeaFromStorage($(this).parent().prop('id'));
   $(this).parent().remove();
   validateSortButton();
 }
 
-function removeIdea(id) {
+function removeIdeaFromStorage(id) {
   localStorage.removeItem(id);
 }
 
-function getIdea(id) {
+function retrieveIdea(id) {
   return JSON.parse(localStorage.getItem(id));
 }
 
 function upVote() {
-  var idea = getIdea($(this).parents('.idea').prop('id'));
+  var idea = retrieveIdea($(this).parents('.idea').prop('id'));
   idea.quality = upQuality(idea.quality);
   idea.element = buildElement(idea);
-  setIdea(idea);
+  storeIdea(idea);
   $(this).parents('.idea').replaceWith(idea.element);
 }
 
@@ -101,10 +101,10 @@ function upQuality(quality) {
 }
 
 function downVote() {
-  var idea = getIdea($(this).parents('.idea').prop('id'));
+  var idea = retrieveIdea($(this).parents('.idea').prop('id'));
   idea.quality = downQuality(idea.quality);
   idea.element = buildElement(idea);
-  setIdea(idea);
+  storeIdea(idea);
   $(this).parents('.idea').replaceWith(idea.element);
 }
 
@@ -120,25 +120,24 @@ function downQuality(quality) {
 }
 
 function editElementText() {
-  var idea = getIdea($(this).parent().prop('id'));
+  var idea = retrieveIdea($(this).parent().prop('id'));
   idea.title = $(this).parent().find('h2').text();
   idea.body = $(this).parent().find('p').text();
   idea.element = buildElement(idea);
-  setIdea(idea);
+  storeIdea(idea);
   $(this).parent().replaceWith(idea.element);
 }
 
-function populateFilteredIdeas(obj) {
+function populateRevisedIdeasContainer(obj) {
   for (var idea in obj) {
     $('.ideas-container').prepend(obj[idea].element);
   }
 }
 
-function removeEnterKeyBlur(e) {
+function enterKeyBlur(e) {
   var key = e.which;
   if (key === 13) {
     $(e.target).blur();
-    console.log('made ir');
   }
 }
 
@@ -146,14 +145,14 @@ function searchIdea() {
   var searchValue = $(this).val().toUpperCase();
   $('.ideas-container').html('');
   if (searchValue !== '') {
-    populateFilteredIdeas(filterObjectBy(searchValue));
+    populateRevisedIdeasContainer(filterObjectBy(searchValue));
   } else {
-    populateIdeas();
+    populateIdeasContainer();
   }
 }
 
 function filterObjectBy(value) {
-  var filteredArray = localStorageToArray().filter(function(idea) {
+  var filteredArray = retrieveForStagingArray().filter(function(idea) {
     return idea.title.toUpperCase().indexOf(value) !== -1 ||
            idea.body.toUpperCase().indexOf(value) !== -1;
   });
@@ -170,26 +169,30 @@ function sortIdeas() {
     case '':
       $(this).toggleClass('sorted');
       $(this).text('sorted');
-      var sortedObject = localStorageToArray().sort(function(a, b) {
-        if (a.quality > b.quality) { return -1 }
-        if (a.quality < b.quality) { return 1 }
-        return 0;
-      }).reduce(function(obj, idea) {
-        obj[idea.id] = idea;
-        return obj;
-      }, {});
-      populateFilteredIdeas(sortedObject);
+      populateRevisedIdeasContainer(sortedObject());
       break;
-
     case 'sorted':
       $(this).toggleClass('sorted');
       $(this).text('sort');
-      populateIdeas();
+      populateIdeasContainer();
       break;
   }
 }
 
-function localStorageToArray() {
+function sortedObject() {
+  var sortedArray = retrieveForStagingArray().sort(function(a, b) {
+    if (a.quality > b.quality) { return -1 }
+    if (a.quality < b.quality) { return 1 }
+    return 0;
+  })
+  var sortedObject = sortedArray.reduce(function(obj, idea) {
+    obj[idea.id] = idea;
+    return obj;
+  }, {});
+  return sortedObject;
+}
+
+function retrieveForStagingArray() {
   var array = [];
   for (var i in localStorage) {
     array.push(JSON.parse(localStorage[i]));
@@ -197,7 +200,7 @@ function localStorageToArray() {
   return array;
 }
 
-function validateButton() {
+function validateSaveButton() {
   if ($('#input-title').val() !== "" && $('#input-body').val() !== "") {
     $('#btn-save').prop('disabled', false);
   } else {
