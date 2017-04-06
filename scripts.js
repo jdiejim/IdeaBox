@@ -21,33 +21,23 @@ function populateIdeas() {
 
 function saveIdea(e) {
   e.preventDefault();
-  var inputs = getInputValues();
   var idea = createIdea(inputs);
   setIdea(idea);
   prependIdea(idea);
   clearInputs();
   $(this).prop('disabled', true);
+  console.log(idea);
 }
 
-function getInputValues() {
-  var title = $('#input-title').val();
-  var body = $('#input-body').val();
-  return {
-    title: title,
-    body: body,
+function createIdea() {
+  var inputsObj = {
+    title: $('#input-title').val(),
+    body: $('#input-body').val(),
     id: new Date().getTime(),
     quality: 'swill'
-  };
-}
-
-function createIdea(inputs) {
-  return {
-      title: inputs.title,
-      body: inputs.body,
-      id: inputs.id,
-      element: buildElement(inputs),
-      quality: 'swill'
-  };
+  }
+  inputsObj.element = buildElement(inputsObj);
+  return inputsObj;
 }
 
 function buildElement(obj) {
