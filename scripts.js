@@ -14,7 +14,9 @@ $('#btn-save').on('click', function (e) {
 
 $('.ideas-container').on('click', '.delete', deleteIdea)
                      .on('click', '.upvote', upVote)
-                     .on('click', '.downvote', downVote);
+                     .on('click', '.downvote', downVote)
+                     .on('focusout', '.edit', editElementText)
+                     .on('keyup', removeEnterKeyBlur);
 
 $('#inputs').on('keyup', function () {
   if ($('#input-title').val() !== "" && $('#input-body').val() !== "") {
@@ -48,22 +50,6 @@ $('#search').on('keyup', function() {
   }
 });
 
-$('.ideas-container').on('keyup', function (e) {
-  var key = e.which;
-  if (key === 13) {
-    $(e.target).blur();
-  }
-});
-
-$('.ideas-container').on('focusout', function(e) {
-  var idea = getIdea($(e.target).parent()[0].id);
-  idea.title = $(this).find(`h2.${idea.id}`).text();
-  idea.body = $(this).find(`p.${idea.id}`).text();
-  idea.element = buildElement(idea);
-  setIdea(idea);
-  $(e.target).parent().replaceWith(idea.element);
-});
-
 // ----- Functions -----
 function getInputValues() {
   var title = $('#input-title').val();
@@ -88,9 +74,9 @@ function createIdea(inputs) {
 
 function buildElement(obj) {
   return `<article id='${obj.id}' class='idea'>
-  <h2 class='${obj.id}' contenteditable>${obj.title}</h2>
+  <h2 class='edit' contenteditable>${obj.title}</h2>
   <div class='delete'></div>
-  <p class='${obj.id}' contenteditable>${obj.body}</p>
+  <p class='edit' contenteditable>${obj.body}</p>
   <div class='vote'>
   <div class='upvote'></div>
   <div class='downvote'></div>
@@ -167,4 +153,21 @@ function downVote() {
   idea.element = buildElement(idea);
   setIdea(idea);
   $(this).parents('.idea').replaceWith(idea.element);
+}
+
+function editElementText() {
+  var idea = getIdea($(this).parent().prop('id'));
+  idea.title = $(this).parent().find('h2').text();
+  idea.body = $(this).parent().find('p').text();
+  idea.element = buildElement(idea);
+  setIdea(idea);
+  $(this).parent().replaceWith(idea.element);
+}
+
+function removeEnterKeyBlur(e) {
+  var key = e.which;
+  if (key === 13) {
+    $(e.target).blur();
+    console.log('made ir');
+  }
 }
