@@ -63,7 +63,6 @@ button:disabled {
   color: #D1D3D4;
 }
 
-
 .idea {
   display: flex;
   flex-wrap: wrap;
@@ -76,16 +75,16 @@ button:disabled {
   width: 95%;
 }
 
+.idea p {
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
 .delete {
   width: 5%;
   margin: 0;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.idea p {
-  width: 100%;
-  margin: 0 0 20px 0;
 }
 
 .quality {
@@ -96,7 +95,6 @@ button:disabled {
 .vote {
   width: 100%;
   display: flex;
-  width: 100%;
   margin-bottom: 10px;
 }
 
