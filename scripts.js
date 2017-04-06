@@ -5,6 +5,7 @@ populateIdeas();
 $('#inputs').on('keyup', validateButton);
 $('#btn-save').on('click', saveIdea);
 $('#search').on('keyup', searchIdea);
+$('#sort').on('click', sortIdeas);
 $('.ideas-container').on('click', '.delete', deleteIdea)
                      .on('click', '.upvote', upVote)
                      .on('click', '.downvote', downVote)
@@ -169,6 +170,29 @@ function filterObjectBy(value) {
     return obj;
   }, {});
   return filteredObj;
+}
+
+function sortIdeas() {
+  $('.ideas-container').html('');
+  switch ($(this).prop('class')) {
+    case '':
+      $(this).prop('class', 'sorted');
+      var sortedObject = localStorageToArray().sort(function(a, b) {
+        if (a.quality > b.quality) { return -1 }
+        if (a.quality < b.quality) { return 1 }
+        return 0;
+      }).reduce(function(obj, idea) {
+        obj[idea.id] = idea;
+        return obj;
+      }, {});
+      populateFilteredIdeas(sortedObject);
+      break;
+
+    case 'sorted':
+      $(this).prop('class', '');
+      populateIdeas();
+      break;
+  }
 }
 
 function localStorageToArray() {
